@@ -1,0 +1,23 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="AllergeMapper">
+<resultMap id="AllergeMap" type="Allerge" autoMapping="true">
+</resultMap>
+
+<select id="selectAll" resultType="Allerge">
+SELECT * FROM ALLERGE
+</select>
+
+<select id="selectByNo" parameterType="_int" resultType="Allerge">
+select * from allerge where allerge_no=#{allerge_no}
+</select>
+
+
+<select id="selectByName" parameterType="string" resultType="Allerge">
+select * from allerge where allerge_name=#{allerge_name}
+</select>
+
+
+
+</mapper>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+  <display-name>sdfserver</display-name>
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+  <context-param>
+    <param-name>service</param-name>
+    <param-value>/WEB-INF/service.properties</param-value>
+  </context-param>
+  <filter>
+    <display-name>MyFilter</display-name>
+    <filter-name>MyFilter</filter-name>
+    <filter-class>filter.MyFilter</filter-class>
+    <init-param>
+      <param-name>charset</param-name>
+      <param-value>UTF-8</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>MyFilter</filter-name>
+    <url-pattern>*.do</url-pattern>
+  </filter-mapping>
+  <listener>
+    <listener-class>listener.MyContextLoaderListener</listener-class>
+  </listener>
+  <servlet>
+    <description></description>
+    <display-name>EmployeesServlet</display-name>
+    <servlet-name>EmployeesServlet</servlet-name>
+    <servlet-class>control.EmployeesServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EmployeesServlet</servlet-name>
+    <url-pattern>/employees/*</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>MealsServlet</display-name>
+    <servlet-name>MealsServlet</servlet-name>
+    <servlet-class>control.MealsServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MealsServlet</servlet-name>
+    <url-pattern>/meals/*</url-pattern>
+  </servlet-mapping>
+</web-app>
