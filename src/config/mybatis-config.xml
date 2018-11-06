@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+  <typeAliases>
+    <typeAlias type="com.sdf.vo.Employees" alias="Employees"/>
+    <typeAlias type="com.sdf.vo.EmployeesAllerge" alias="EmployeesAllerge"/>
+    <typeAlias type="com.sdf.vo.Food" alias="Food"/>
+    <typeAlias type="com.sdf.vo.FoodAllerge" alias="FoodAllerge"/>
+    <typeAlias type="com.sdf.vo.Allerge" alias="Allerge"/>
+    <typeAlias type="com.sdf.vo.Meals" alias="Meals"/>
+  </typeAliases>
+  <environments default="development">
+    <environment id="development">
+      <transactionManager type="JDBC"/>
+      <dataSource type="POOLED">
+        <property name="driver" value="oracle.jdbc.driver.OracleDriver"/>
+        <property name="url" value="jdbc:oracle:thin:@192.168.0.165:1521:xe"/>
+        <property name="username" value="sdf"/>
+        <property name="password" value="sdf"/>
+        <property name="poolMaximumActiveConnections" value="5"/>
+      </dataSource>
+    </environment>
+  </environments>
+  <mappers>
+    <mapper resource="config/AllergeMapper.xml"/>
+    <mapper resource="config/EmployeesMapper.xml"/>
+    <mapper resource="config/MealsMapper.xml"/>
+  </mappers>
+</configuration>

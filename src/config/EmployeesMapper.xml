@@ -1,0 +1,45 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="EmployeesMapper">
+<resultMap id="EmployeesMap" type="Employees" autoMapping="true">
+</resultMap>
+
+<resultMap id="EmployeesAllergeMap" type="EmployeesAllerge" autoMapping="true">
+  <association property="employees" resultMap="EmployeesMap"></association>
+  <association property="allerge" resultMap="AllergeMap"></association>
+</resultMap>
+<resultMap id="AllergeMap" type="Allerge" autoMapping="true"></resultMap>
+
+<select id="selectAll" resultType="Employees">
+SELECT * FROM EMPLOYEES
+</select>
+
+<select id="selectById" parameterType="string" resultType = "Employees">
+SELECT * FROM EMPLOYEES where id=#{id}
+</select>
+
+
+<select id="selectByEmail" parameterType="string" resultType = "Employees">
+SELECT * FROM EMPLOYEES where email=#{email}
+</select>
+
+<select id="selectEmpAlg" parameterType="string" resultMap="EmployeesAllergeMap">
+SELECT id,allerge_no FROM employees_allerge WHERE id=#{id}
+</select>
+
+
+
+<update id="updatePwd" parameterType="Employees">
+update employees SET pwd =#{pwd} where id=#{id}
+</update>
+
+<insert id="insertEmpAlg" parameterType="EmployeesAllerge">
+INSERT INTO EMPLOYEES_ALLERGE VALUES(EMP_ALG_SEQ.NEXTVAL,#{employees.id},#{allerge.allerge_no})
+</insert>
+
+<delete id="deleteEmpAlg" parameterType="Employees">
+DELETE EMPLOYEES_ALLERGE WHERE id=#{id}
+</delete>
+
+</mapper>

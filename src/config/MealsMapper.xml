@@ -1,0 +1,94 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="MealsMapper">
+
+<resultMap type="Meals" id="mealsMap" autoMapping="true">
+	<!-- <id property="meals_pk" column="{meals_date, food_no}"/> -->
+	<id property="meals_date" column="meals_date"/>
+	<id property="food.food_no" column="food_no"/>
+	<association property="food" resultMap="foodMap"/>
+	<collection property="foodallergeList" ofType="FoodAllerge" autoMapping="true">
+			<association property="allerge" resultMap="allergeMap"/>
+	</collection>
+</resultMap>
+
+<resultMap type="FoodAllerge" id="foodallergeMap" autoMapping="true">
+	<association property="food" resultMap="foodMap"/>
+	<association property="allerge" resultMap="allergeMap"/>
+</resultMap>
+
+<resultMap type="Food" id="foodMap" autoMapping="true">
+	<id property="food_no" column="food_no"/>	
+</resultMap>
+
+<resultMap type="Allerge" id="allergeMap" autoMapping="true">
+	<id property="allerge_no" column="allerge_no"/>	
+</resultMap>
+
+
+ 
+<select id="selectByMonth" parameterType="_int" resultMap="mealsMap" >
+ SELECT m.meals_date, m.food_no,
+ f.food_name FROM MEALS m join FOOD f
+ on m.food_no = f.food_no
+ WHERE extract(month from m.meals_date)=#{month}
+ ORDER BY 1
+</select>
+ 
+ <select id="selectByDay" parameterType="string" resultMap="mealsMap" >
+  SELECT  m.meals_date, f.food_no 
+ , f.food_name
+ ,f.food_cate ,f.ingredient ,f.kcal
+ FROM MEALS m join FOOD f
+ on m.food_no = f.food_no
+ WHERE m.meals_date = #{date}
+ ORDER BY 2  
+  </select>
+  
+ <select id="selectByWeek" parameterType="_int" resultMap="mealsMap" >
+SELECT m.meals_date, m.food_no, f.food_name
+ FROM MEALS m join FOOD f on m.food_no=f.food_no
+ where TO_CHAR(meals_date,'IW') = #{week}
+ order by 1 asc
+ </select>
+  
+ 
+ <select id="selectAllFoodAllerge" resultMap="foodallergeMap">
+ SELECT fa.allerge_no, f.* FROM FOOD_ALLERGE fa JOIN FOOD f on fa.food_no = f.food_no
+ </select>
+ 
+ <select id="selectByMonthWithAllerge" parameterType="_int" resultMap="mealsMap" >
+ SELECT m.meals_date, f.food_no, f.food_name, fa.allerge_no FROM MEALS m
+ left join food f on m.food_no=f.food_no
+ left join FOOD_ALLERGE fa on f.FOOD_NO = fa.FOOD_NO
+ where extract(month from meals_date) =#{month} 
+ order by 1,2,4
+ </select>
+ 
+ <select id="selectByDayWithAllerge" parameterType="string" resultMap="mealsMap">
+SELECT m.meals_date, f.food_no, f.food_name, fa.allerge_no FROM MEALS m
+ left join food f on m.food_no=f.food_no
+ left join FOOD_ALLERGE fa on f.FOOD_NO = fa.FOOD_NO
+ WHERE m.meals_date = #{date} 
+ order by 1,2,4
+</select>
+
+<select id="selectAll_Food" resultMap="foodMap">
+select * from food
+</select>
+ 
+ 
+ <select id="selectByNo_Food" parameterType="_int" resultMap="foodMap">
+ select * from food where food_no=#{food_no}
+ </select>
+ 
+ <insert id="insert" parameterType="Meals"> 
+ insert into meals(meals_date, food_no) values(#{meals_date}, #{food.food_no}) 
+ </insert>
+
+<delete id="delete" parameterType="string"> 
+delete from meals where meals_date = #{meals_date} 
+</delete>
+ 
+</mapper>
